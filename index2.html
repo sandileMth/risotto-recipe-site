@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risotto de la Gloire</title>
+    <!-- Premium Google Typography Integration -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Main App Wrap Frame -->
+    <div class="recipe-card-wrapper">
+        
+        <nav class="navbar">
+            <a href="index2.html" class="active">Home</a>
+            <a href="about.html">About the Chef</a>
+        </nav>
+
+        <header class="recipe-header">
+            <h1>Risotto Recipe</h1>
+            <p class="recipe-intro">Many have asked for my Risotto recipe so here it is, <br><em>In ALL its glory!</em></p>
+        </header>
+
+        <!-- Modern Structural Split Layout Grid -->
+        <main class="recipe-grid">
+            
+            <!-- Left Column: The Checklist Ingredients -->
+            <section class="ingredients-panel">
+                <h2>Ingredients</h2>
+                <ul class="styled-list">
+                    <li><span>Risotto rice</span></li>
+                    <li><span>Rice vinegar</span></li>
+                    <li><span>Soy sauce</span></li>
+                    <li><span>Salt</span></li>
+                    <li><span>Pepper</span></li>
+                </ul>
+            </section>
+
+            <!-- Right Column: The Graphic Instructions -->
+            <section class="instructions-panel">
+                <h2>Instructions</h2>
+                <ol class="styled-steps">
+                    <li>Boil half a litre of water in a large pot</li>
+                    <li>Add the risotto rice</li>
+                    <li>Cook for 15 Minutes
+                         <div class="timer-widget">
+        <button type="button" id="timer-toggle-btn">Start 15m Timer</button>
+        <span id="timer-display" class="hidden">15:00</span>
+        <button type="button" id="timer-reset-btn" class="hidden">Reset</button>
+    </div>
+                    </li>
+                    <li>Add a teaspoon of rice vinegar and a dash of salt</li>
+                    <li>Finish with salt and pepper</li>
+                </ol>
+            </section>
+
+        </main>
+
+        <!-- Perfectly Centered Polaroid Visual Frame -->
+        <div class="image-container">
+    <img src="risotto.jpg" alt="The fantastic finished risotto product">
+</div>
+
+
+        <div class="divider"></div>
+
+        <!-- Premium Smooth UI Form Interface -->
+        <section class="form-container">
+            <h3>Questions about the recipe?</h3>
+            <form>
+                <div class="input-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Your Name" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="Your Email" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="4" placeholder="Type your message here..." required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Send Recipe Inquiry</button>
+            </form>
+        </section>
+
+    </div>
+        <!-- Add this right before the closing body tag -->
+    <script>
+        // 1. Select all the ingredient list items
+        const ingredients = document.querySelectorAll('.styled-list li');
+
+        // 2. Loop through each item and listen for a click
+        ingredients.forEach(item => {
+            item.addEventListener('click', () => {
+                // 3. Toggle the "checked" class on and off when clicked
+                item.classList.toggle('checked');
+            });
+        });
+                // ==========================================
+        // KITCHEN TIMER UTILITY LOGIC
+        // ==========================================
+        const toggleBtn = document.getElementById('timer-toggle-btn');
+        const display = document.getElementById('timer-display');
+        const resetBtn = document.getElementById('timer-reset-btn');
+
+        let countdown = null;
+        // 15 minutes converted to total seconds (15 * 60 = 900)
+        let totalSeconds = 900; 
+        let isRunning = false;
+
+        function updateDisplay() {
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            // Formats numbers nicely (e.g., 05:09 instead of 5:9)
+            display.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            if (!isRunning) {
+                // Start the Timer
+                isRunning = true;
+                toggleBtn.textContent = 'Pause';
+                display.classList.remove('hidden');
+                resetBtn.classList.remove('hidden');
+
+                countdown = setInterval(() => {
+                    totalSeconds--;
+                    updateDisplay();
+
+                    if (totalSeconds <= 0) {
+                        clearInterval(countdown);
+                        display.textContent = "Time's Up! 🍳";
+                        toggleBtn.classList.add('hidden');
+                    }
+                }, 1000);
+            } else {
+                // Pause the Timer
+                isRunning = false;
+                toggleBtn.textContent = 'Resume';
+                clearInterval(countdown);
+            }
+        });
+
+        resetBtn.addEventListener('click', () => {
+            clearInterval(countdown);
+            isRunning = false;
+            totalSeconds = 900; // Reset back to 15 mins
+            updateDisplay();
+            toggleBtn.textContent = 'Start 15m Timer';
+            toggleBtn.classList.remove('hidden');
+            display.classList.add('hidden');
+            resetBtn.classList.add('hidden');
+        });
+
+    </script>
+    
+</body>
+
+
+</body>
+</html>
